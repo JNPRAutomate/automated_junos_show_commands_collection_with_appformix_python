@@ -39,5 +39,5 @@ def collect_junos_commands(dev):
     device.close()
     return 'done'
 
-# collect_junos_commands('jedi-vmx-1-vcp')
+# collect_junos_commands('vmx-1-vcp')
 
