@@ -87,7 +87,7 @@ In order to configure AppFormix for network devices monitoring, here are the ste
 Here's how to manage the 'network devices json configuration file' with automation:  
 Define the list of devices you want to monitor using Appformix, and the details you want to collect from them:    
 ```
-cd event_driven_network_automation_leveraging_appformix
+cd appformix_python_event_driven_device_data_collection
 vi configure_appformix/network_devices.yml
 ```
 
