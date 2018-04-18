@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/ksator/event_driven_network_automation_leveraging_appformix.svg?branch=master)](https://travis-ci.org/ksator/event_driven_network_automation_leveraging_appformix)  
-
 ## Documentation structure
 [**About this repo**](README.MD#about-this-repo)  
 [**Building blocks**](README.MD#building-blocks)  
@@ -9,10 +7,8 @@
 [**Configure the network devices for JTI telemetry**](README.MD#configure-the-network-devices-for-jti-telemetry)  
 [**Webhooks**](README.MD#webhooks)  
 [**Event driven automation**](README.MD#event-driven-automation)  
-[**How to reproduce the event driven automation demos**](README.MD#how-to-reproduce-the-event-driven-automation-demos)  
+[**How to reproduce the event driven automation demo**](README.MD#how-to-reproduce-the-event-driven-automation-demo)  
 [**Automated data collection demo**](README.MD#automated-data-collection-demo)  
-[**Unplanned maintenance operations demo**](README.MD#unplanned-maintenance-operations-demo)  
-[**Continuous integration with Travis CI**](README.MD#continuous-integration-with-travis-ci)  
 [**Looking for more automation solutions**](README.MD#looking-for-more-automation-solutions)  
 
 ## About this repo
@@ -20,12 +16,9 @@
 This repository has scripts to quickly demo network devices monitoring using Appformix.   
 ![appformix_network_devices_monitoring.png](resources/appformix_network_devices_monitoring.png)  
 
-It has also scripts to demo event driven automation leveraging Appformix. The event driven automation demos are: 
-- Based on Appformix webhook notifications, automatically collect additional data from the "faulty" device and automatically upload the data collected on a Git server  
+It has also scripts to demo event driven automation leveraging Appformix.  
+Based on Appformix webhook notifications, automatically collect additional data from the "faulty" device and automatically upload the data collected on a Git server  
 ![automated-data-collection.png](resources/automated-data-collection.png)  
-- Based on Appformix webhook notifications, automatically make REST calls to Northstar SDN controller to put the "faulty" device in maintenance mode. The "faulty" device will be considered logically down for a certain amount time, and the SDN controller will reroute the LSPs around this device during the maintenance period. After the maintenance period, LSPs are reverted back to optimal paths. This [**video**](https://www.youtube.com/watch?v=qM4sJtCLk8o&feature=youtu.be) and this [**article**](https://forums.juniper.net/t5/Industry-Solutions-and-Trends/Enabling-rapid-remediation-in-the-Self-Driving-Network/ba-p/321375) are about similar demos.  
-![unplanned-maintenance-operations.png](resources/unplanned-maintenance-operations.png)  
-
 
 Here are more details about the automation content available in this repository. It has automation content to:  
 - Add network devices to Appformix
@@ -33,23 +26,19 @@ Here are more details about the automation content available in this repository.
 - Modify the IP address configured by Appformix for telemetry on the network devices
 - Trigger Appformix alarms  
 - Listen to the webhooks notifications sent by Appformix
-- React to the webhooks notifications sent by Appformix (event driven automation). The reactions triggered automatically are python scripts to:   
-   - collect additional data on the "faulty" device and upload them on a Git server  
-   - make REST calls to Northstar SDN controller to put the "faulty" device in maintenance mode. 
-
+- React to the webhooks notifications sent by Appformix (event driven automation). The reactions triggered automatically are python scripts to collect additional data on the "faulty" device and upload them on a Git server  
+   
 I am using them with an Appformix standalone setup running version 2.15.2 installed on Ubuntu 16.04
 
-This repository doesn’t cover how to install Appformix or Northstar.  
+This repository doesn’t cover how to install Appformix
 
 ## Building blocks
 
 This repository uses the following main building blocks: 
 - Juniper vMX devices. 
   - Other Junos devices can be used. 
-- Northstar SDN controller. 
-  - Version 4 or above is required.   
 - Appformix 
-  - To collect data (using SNMP and JTI streaming telemetry) from Junos devices. 
+  - To collect data (using SNMP and JTI native streaming telemetry) from Junos devices. 
   - To generate webhooks notifications. 
 - A webhook listener. This is a python script that: 
   - Listens to webhooks
@@ -58,16 +47,14 @@ This repository uses the following main building blocks:
   - Passes the data extracted from the webhooks to the mapped python function
   - Executes the mapped python function. 
 - Python scripts to trigger Appformix alarms  
-- Python scripts triggered automatically by the webhook listener:
-  - To make actions against Northstar
-  - To make actions against Junos devices and a Git server
+- Python scripts triggered automatically by the webhook listener to make actions against Junos devices and a Git server
  
 ## Clone this repository
 
 Run these commands to clone this repository:
 ```
 sudo -s
-git clone https://github.com/ksator/event_driven_network_automation_leveraging_appformix.git 
+git clone https://github.com/ksator/appformix_event_driven_network_device_data_collection.git 
 ```
 
 ## Requirements to use this repository 
@@ -75,13 +62,11 @@ git clone https://github.com/ksator/event_driven_network_automation_leveraging_a
 Run these commands to install the python library junos-eznc (also know as PyEZ) and its dependencies.
 ```
 sudo -s
-cd event_driven_network_automation_leveraging_appformix
+cd appformix_event_driven_network_device_data_collection
 apt-get update && apt-get upgrade
 apt-get install -y python-dev libxml2-dev python-pip libxslt1-dev build-essential libssl-dev libffi-dev git curl
 pip install -r requirements.txt
 ```
-
-This repository requires Northstar version 4 or above. 
 
 ## Configure Appformix to add network devices to monitor
 
@@ -267,15 +252,11 @@ Appformix supports webhooks. A notification is generated when the condition of a
 
 The script [**webhook_listener.py**](webhook_listener.py) listens to webhooks and binds a function to each URL.   
 
-- It binds the webhook ```http://x.x.x.x:12345/northstar/put_device_in_maintenance``` (POST with JSON Body) sent by appformix to the script [**northstar_rest_calls.py**](northstar_rest_calls.py).  
-The device name is extracted from the JSON body and passed as an argument to the script [**northstar_rest_calls.py**](northstar_rest_calls.py).  
-The script [**northstar_rest_calls.py**](northstar_rest_calls.py) then makes rest calls to Northstar SDN controler to put this device in maintenance mode.  
-During a maintenance event, the selected devices are considered logically down, and the system reroutes the LSPs around those devices during the maintenance period. After the maintenance event is completed, the LSPs are reverted back to optimal paths.  
-- It binds the webhook ```http://x.x.x.x:12345/junos/collect_data``` (POST with JSON body) from appformix to the script [**push_to_git.py**](push_to_git.py).  
+It binds the webhook ```http://x.x.x.x:12345/junos/collect_data``` (POST with JSON body) from appformix to the script [**push_to_git.py**](push_to_git.py).  
 The device name is extracted from the JSON body and passed as an argument to the script [**push_to_git.py**](push_to_git.py).  
-The script [**push_to_git.py**](push_to_git.py) then collects data on this junos devices (junos show commands output) and upload the data collected to a Git server.  
+The script [**push_to_git.py**](push_to_git.py) then collects data on this junos device (junos show commands output) and upload the data collected to a Git server.  
 
-## How to reproduce the event driven automation demos
+## How to reproduce the event driven automation demo
 
 Define webhooks on Appformix.  
 From the GUI, select: ```settings```, ```notification settings```, ```notification services```, ```add service``` (provide a service name and a service endpoint), ```setup```.  
@@ -318,29 +299,6 @@ The data collected is then pushed automatically on the remote repository:
 # git log -1
 ```
 So the data collected is available on the remote repository: [**vmx104**](data_collected/vmx104)  
-
-## Unplanned maintenance operations demo
-
-The script [**webhook_listener.py**](webhook_listener.py) binds the webhook ```http://webhook_listener_ip:12345/northstar/put_device_in_maintenance``` to the script [**northstar_rest_calls.py**](northstar_rest_calls.py).  
-The script [**webhook_listener.py**](webhook_listener.py) also extracts the device name from the JSON body and pass it to the script [**northstar_rest_calls.py**](northstar_rest_calls.py).  
-The script [**northstar_rest_calls.py**](northstar_rest_calls.py) makes rest calls to Northstar SDN controller to put this device (the one notified by Appformix) in maintenance mode.  
-During the maintenance event, this device will be considered logically down, and Northstar will reroute the LSPs around this device during the maintenance period. After the maintenance event is completed, the LSPs will be reverted back to optimal paths.  
-Here's the output of [**webhook_listener.py**](webhook_listener.py) for this webhook 
-```
-172.18.0.5 - - [28/Mar/2018 04:51:29] "POST /northstar/put_device_in_maintenance HTTP/1.1" 201 -
-```
-
-The "faulty" device is now in maintenance mode. Northstar GUI: 
-![maintenance.png](resources/maintenance.png)  
-
-## Continuous integration with Travis CI
-
-There is a github webhook with Travis CI  
-The syntax of the python scripts in this repository is tested automatically by Travis CI.  
-The files [**.travis.yml**](.travis.yml) and [**requirements.txt**](requirements.txt) at the root of this repository are used for this.  
-
-Here's the last build status  
-[![Build Status](https://travis-ci.org/ksator/event_driven_network_automation_leveraging_appformix.svg?branch=master)](https://travis-ci.org/ksator/event_driven_network_automation_leveraging_appformix)  
 
 ## Looking for more automation solutions
 
