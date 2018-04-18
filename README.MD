@@ -1,4 +1,5 @@
 ## Documentation structure
+
 [**About this repo**](README.MD#about-this-repo)  
 [**Building blocks**](README.MD#building-blocks)  
 [**Clone this repository**](README.MD#clone-this-repository)  
@@ -54,7 +55,7 @@ This repository uses the following main building blocks:
 Run these commands to clone this repository:
 ```
 sudo -s
-git clone https://github.com/ksator/appformix_event_driven_network_device_data_collection.git 
+git clone https://github.com/ksator/appformix_python_event_driven_device_data_collection.git 
 ```
 
 ## Requirements to use this repository 
@@ -62,7 +63,7 @@ git clone https://github.com/ksator/appformix_event_driven_network_device_data_c
 Run these commands to install the python library junos-eznc (also know as PyEZ) and its dependencies.
 ```
 sudo -s
-cd appformix_event_driven_network_device_data_collection
+cd appformix_python_event_driven_device_data_collection
 apt-get update && apt-get upgrade
 apt-get install -y python-dev libxml2-dev python-pip libxslt1-dev build-essential libssl-dev libffi-dev git curl
 pip install -r requirements.txt
