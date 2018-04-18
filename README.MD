@@ -183,7 +183,7 @@ If Appformix has serveral ip addresses, and you want to configure the network de
 The python script [**telemetry.py**](configure_junos/telemetry.py) renders the template [**telemetry.j2**](configure_junos/telemetry.j2) using the variables [**network_devices.yml**](configure_appformix/network_devices.yml). The rendered file is [**telemetry.conf**](configure_junos/telemetry.conf). This file is then loaded and committed on all network devices used with JTI telemetry.  
 
 ```
-cd event_driven_automation_with_appformix
+cd appformix_python_event_driven_device_data_collection
 more configure_appformix/network_devices.yml
 ```
 ```
