@@ -1,19 +1,9 @@
 from flask import Flask, jsonify, abort, make_response, request
-import northstar_rest_calls
 import push_to_git
 import json
 from pprint import pprint
 
 app = Flask(__name__)
-
-@app.route('/northstar/put_device_in_maintenance', methods=['POST'])
-def node_in_maintenance():
- if request.headers['Content-Type'] != 'application/json':
-        abort(400, message="Expected Content-Type = application/json")
- data = request.json
- dev = data['status']['entityId']
- northstar_rest_calls.put_device_in_maintenance(dev)
- return jsonify({'device in maintenance ': dev}), 201
 
 @app.route('/junos/collect_data', methods=['POST'])
 def collect_commands():
