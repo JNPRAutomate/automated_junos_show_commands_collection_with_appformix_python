@@ -19,15 +19,15 @@
           }
         },
         "ManagementIp": "192.168.1.1",
-        "Name": "jedi-vmx-1-vcp",
+        "Name": "vmx-1-vcp",
         "Source": "user.jti",
-        "NetworkDeviceId": "jedi-vmx-1-vcp",
+        "NetworkDeviceId": "vmx-1-vcp",
         "ChassisType": "coreswitch",
         "ConnectionInfo": [
           {
             "remote_interface_name": "ge-0/0/0",
             "local_interface_name": "ge-0/0/0",
-            "remote_system_id": "jedi-vmx-2-vcp"
+            "remote_system_id": "vmx-2-vcp"
           }
         ]
       }
@@ -51,15 +51,15 @@
           }
         },
         "ManagementIp": "192.168.1.2",
-        "Name": "jedi-vmx-2-vcp",
+        "Name": "vmx-2-vcp",
         "Source": "user.jti",
-        "NetworkDeviceId": "jedi-vmx-2-vcp",
+        "NetworkDeviceId": "vmx-2-vcp",
         "ChassisType": "coreswitch",
         "ConnectionInfo": [
           {
             "remote_interface_name": "ge-0/0/0",
             "local_interface_name": "ge-0/0/0",
-            "remote_system_id": "jedi-vmx-1-vcp"
+            "remote_system_id": "vmx-1-vcp"
           }
         ]
       }
