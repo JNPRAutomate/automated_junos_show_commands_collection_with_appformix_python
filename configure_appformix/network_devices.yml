@@ -10,7 +10,7 @@ jti:
     devices: 
         - ip: "192.168.1.1"
           out_of_band: "172.30.52.155"
-          name: "jedi-vmx-1-vcp"
+          name: "vmx-1-vcp"
           type: "coreswitch"
           version: "17.2R1" 
           sensors: 
@@ -19,10 +19,10 @@ jti:
           connections: 
                - local_interface: "ge-0/0/0"
                  remote_interface: "ge-0/0/0"
-                 remote_name: "jedi-vmx-2-vcp"
+                 remote_name: "vmx-2-vcp"
         - ip: "192.168.1.2"
           out_of_band: "172.30.52.156"
-          name: "jedi-vmx-2-vcp"
+          name: "vmx-2-vcp"
           type: "coreswitch"
           version: "17.2R1"
           sensors:
@@ -31,7 +31,7 @@ jti:
           connections:
                - local_interface: "ge-0/0/0"
                  remote_interface: "ge-0/0/0"
-                 remote_name: "jedi-vmx-1-vcp"
+                 remote_name: "vmx-1-vcp"
 #######################################################################################################
 snmp_2c:
     community: "public"
