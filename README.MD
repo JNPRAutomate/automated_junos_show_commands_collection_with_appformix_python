@@ -274,11 +274,11 @@ Start the listener [**webhook_listener.py**](webhook_listener.py):
  * Debugger PIN: 290-737-301
 ```
 
+## Automated data collection demo
+
 Have Appformix to generate a webhook notification. You can use the scripts in the [**trigger_alarms**](trigger_alarms) directory.  
 
 The python script [**webhook_listener.py**](webhook_listener.py) will receive HTTP POST and bind them to other python functions.  
-
-## Automated data collection demo
 
 The script [**webhook_listener.py**](webhook_listener.py) binds the Webhook ```http://webhook_listener_ip:12345/junos/collect_data``` to the script [**push_to_git.py**](push_to_git.py).  
 The script [**webhook_listener.py**](webhook_listener.py) also extracts the device name from the JSON body and passes it to the script [**push_to_git.py**](push_to_git.py).  
