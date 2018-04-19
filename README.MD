@@ -300,9 +300,3 @@ The data collected is then pushed automatically on the remote repository:
 # git log -1
 ```
 So the data collected is available on the remote repository: [**vmx104**](data_collected/vmx104)  
-
-## Looking for more automation solutions
-
-https://github.com/ksator?tab=repositories  
-https://gitlab.com/users/ksator/projects  
-https://gist.github.com/ksator/  
