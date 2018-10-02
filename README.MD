@@ -55,7 +55,7 @@ This repository uses the following main building blocks:
 Run these commands to clone this repository:
 ```
 sudo -s
-git clone https://github.com/ksator/appformix_python_event_driven_device_data_collection.git 
+git clone https://github.com/JNPRAutomate/automated_junos_show_commands_collection_with_appformix_python.git
 ```
 
 ## Requirements to use this repository 
@@ -63,7 +63,7 @@ git clone https://github.com/ksator/appformix_python_event_driven_device_data_co
 Run these commands to install the python library junos-eznc (also know as PyEZ) and its dependencies.
 ```
 sudo -s
-cd appformix_python_event_driven_device_data_collection
+cd automated_junos_show_commands_collection_with_appformix_python
 apt-get update && apt-get upgrade
 apt-get install -y python-dev libxml2-dev python-pip libxslt1-dev build-essential libssl-dev libffi-dev git curl
 pip install -r requirements.txt
@@ -87,7 +87,7 @@ In order to configure AppFormix for network devices monitoring, here are the ste
 Here's how to manage the 'network devices json configuration file' with automation:  
 Define the list of devices you want to monitor using Appformix, and the details you want to collect from them:    
 ```
-cd appformix_python_event_driven_device_data_collection
+cd automated_junos_show_commands_collection_with_appformix_python
 vi configure_appformix/network_devices.yml
 ```
 
@@ -183,7 +183,7 @@ If Appformix has serveral ip addresses, and you want to configure the network de
 The python script [**telemetry.py**](configure_junos/telemetry.py) renders the template [**telemetry.j2**](configure_junos/telemetry.j2) using the variables [**network_devices.yml**](configure_appformix/network_devices.yml). The rendered file is [**telemetry.conf**](configure_junos/telemetry.conf). This file is then loaded and committed on all network devices used with JTI telemetry.  
 
 ```
-cd appformix_python_event_driven_device_data_collection
+cd automated_junos_show_commands_collection_with_appformix_python
 more configure_appformix/network_devices.yml
 ```
 ```
@@ -300,3 +300,4 @@ The data collected is then pushed automatically on the remote repository:
 # git log -1
 ```
 So the data collected is available on the remote repository: [**vmx104**](data_collected/vmx104)  
+
